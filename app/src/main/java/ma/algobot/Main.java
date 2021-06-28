@@ -13,10 +13,8 @@ import android.os.CountDownTimer;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.speech.tts.TextToSpeech;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 public class Main extends AppCompatActivity {
 
@@ -35,7 +32,6 @@ public class Main extends AppCompatActivity {
     private ListView mListView;
     private FloatingActionButton mButtonSend;
     private EditText mEditTextMessage;
-    private ImageView mImageView;
     private ChatMessageAdapter mAdapter;
 
     String[] permissions = new String[] {
@@ -88,8 +84,6 @@ public class Main extends AppCompatActivity {
                         promptSpeechInput();
                     }
                 });
-
-
                 mButtonSend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

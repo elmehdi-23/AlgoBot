@@ -38,8 +38,14 @@
 
         <ImageButton
             android:id="@+id/btnSpeak"
-            android:layout_width="72dp"
-            android:layout_height="65dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ico_camera" />
+        <ImageButton
+            android:id="@+id/btnCamera"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/ico_mic" />
         <EditText
@@ -57,7 +63,7 @@
             android:id="@+id/btn_send"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_weight="0.05"
+            android:layout_marginRight="2dp"
             android:src="@drawable/ic_send"
             android:text="Send"
             app:backgroundTint="@color/colorAccent" />
