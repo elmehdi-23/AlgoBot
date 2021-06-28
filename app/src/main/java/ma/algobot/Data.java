@@ -40,7 +40,7 @@ public class Data extends AsyncTask<String, Void, String> {
             return new JSONObject(json).getJSONObject("query").getJSONArray("pages").getJSONObject(0).getString("extract").toString();
         } catch (Exception e) {
             this.exception = e;
-            return null;
+            return "";
         }
     }
 

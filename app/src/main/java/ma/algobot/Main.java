@@ -101,6 +101,8 @@ public class Main extends AppCompatActivity {
                         String response = "";
                         try {
                             response = new Data().execute(url +  message.replace(" ","%20")).get();
+                            response = response.compareTo("")== 0 ?  message :response;
+                            //Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

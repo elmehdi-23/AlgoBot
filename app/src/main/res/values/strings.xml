@@ -7,8 +7,7 @@
     <!--Start Page-->
     <string name="start_crmef">2021</string>
     <!--Menu Page-->
-    <string name="speech_prompt"><font size = "25">Chat with me……</font></string>
+    <string name="speech_prompt"><font size = "25">Essayer de dire……</font></string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
-    <string name="Ehint"><font size="15">Type a Message…</font></string>
-    <string name="menu_start">Debut</string>
+    <string name="Ehint"><font size="15">Taper un Message…</font></string>
 </resources>
