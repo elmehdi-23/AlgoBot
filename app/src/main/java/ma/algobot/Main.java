@@ -28,8 +28,6 @@ import java.util.concurrent.ExecutionException;
 
 public class Main extends AppCompatActivity {
 
-    private Button start,about,exit;
-
     public TextToSpeech t1,t2;
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
@@ -42,7 +40,7 @@ public class Main extends AppCompatActivity {
 
     String[] permissions = new String[] {
             Manifest.permission.INTERNET,
-
+            Manifest.permission.RECORD_AUDIO
     };
     private final String TAG = "Main" ;
     private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=300&redirects=1&formatversion=2&origin=*&titles=";
@@ -98,22 +96,23 @@ public class Main extends AppCompatActivity {
                         String message = mEditTextMessage.getText().toString();
                         //t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                         //bot
-                        String response = "";
-                        try {
-                            response = new Data().execute(url +  message.replace(" ","%20")).get();
-                            response = response.compareTo("")== 0 ?  message :response;
-                            //Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if(!message.isEmpty()) {
+                            String response = "";
+                            try {
+                                response = new Data().execute(url + message.replace(" ", "%20")).get();
+                                response = response.compareTo("") == 0 ? message : response;
+                                //Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            sendMessage(message);
+                            mimicOtherMessage(response);
+                            mEditTextMessage.setText("");
+                            mListView.setSelection(mAdapter.getCount() - 1);
+
+                            //Toast.makeText(getApplicationContext(),"Res : "+response,Toast.LENGTH_LONG).show();
+                            t1.speak(response, TextToSpeech.QUEUE_FLUSH, null);
                         }
-                        sendMessage(message);
-                        mimicOtherMessage(response);
-                        mEditTextMessage.setText("");
-                        mListView.setSelection(mAdapter.getCount() - 1);
-
-                        //Toast.makeText(getApplicationContext(),"Res : "+response,Toast.LENGTH_LONG).show();
-                        t1.speak(response, TextToSpeech.QUEUE_FLUSH, null);
-
 
                         //Toast.makeText(getApplicationContext(),"list : "+mListView.getCount(),Toast.LENGTH_LONG).show();
                     }
@@ -140,14 +139,12 @@ public class Main extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // do something
             }
-            return;
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     //speech start
@@ -169,8 +166,6 @@ public class Main extends AppCompatActivity {
                     getString(R.string.speech_not_supported),
                     Toast.LENGTH_SHORT).show();
         }
-
-
     }
     public void sendMessage(String message) {
         ChatMessage chatMessage = new ChatMessage(message, true, false);
@@ -194,10 +189,17 @@ public class Main extends AppCompatActivity {
         mAdapter.add(chatMessage);
     }
     public void onPause() {
-        if(t1 !=null){
+        if(t1.isSpeaking()){
             t1.stop();
-            t1.shutdown();
         }
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(t1.isSpeaking())
+            t1.stop();
+        else
+            super.onBackPressed();
     }
 }
