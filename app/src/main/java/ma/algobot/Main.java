@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.speech.tts.TextToSpeech;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class Main extends AppCompatActivity {
 
@@ -44,6 +45,8 @@ public class Main extends AppCompatActivity {
 
     };
     private final String TAG = "Main" ;
+    private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=175&redirects=1&formatversion=2&origin=*&titles=";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,8 +98,12 @@ public class Main extends AppCompatActivity {
                         String message = mEditTextMessage.getText().toString();
                         //t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
                         //bot
-
-                        String response = mEditTextMessage.getText().toString();
+                        String response = "";
+                        try {
+                            response = new Data().execute(url +  message).get();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         sendMessage(message);
                         mimicOtherMessage(response);
                         mEditTextMessage.setText("");
