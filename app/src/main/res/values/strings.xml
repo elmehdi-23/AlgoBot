@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AlgoBot</string>
+    <string name="todo">TODO</string>
+    <string name="version">1.0</string>
+    <string name="version_word">version</string>
+    <string name="myname">Berrich EL Mehdi</string>
+    <!--Start Page-->
+    <string name="start_crmef">2021</string>
+    <!--Menu Page-->
+    <string name="speech_prompt"><font size = "25">Chat with me……</font></string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="Ehint"><font size="15">Type a Message…</font></string>
+    <string name="menu_start">Debut</string>
+</resources>

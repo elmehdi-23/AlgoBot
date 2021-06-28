@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- // TODO 21/02/2021 Fix Colors -->
+    <color name="colorPrimary">#29B6F6</color>
+    <color name="colorPrimaryDark">#0277BD</color>
+    <color name="colorAccent">#40C4FF</color>
+    <color name="transport">#00FFFFFF</color>
+    <color name="bg_color">#FCFCFC</color>
+</resources>
