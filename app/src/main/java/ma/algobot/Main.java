@@ -45,7 +45,7 @@ public class Main extends AppCompatActivity {
 
     };
     private final String TAG = "Main" ;
-    private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=175&redirects=1&formatversion=2&origin=*&titles=";
+    private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=300&redirects=1&formatversion=2&origin=*&titles=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class Main extends AppCompatActivity {
                         //bot
                         String response = "";
                         try {
-                            response = new Data().execute(url +  message).get();
+                            response = new Data().execute(url +  message.replace(" ","%20")).get();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

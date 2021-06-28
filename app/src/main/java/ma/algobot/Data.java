@@ -37,9 +37,7 @@ public class Data extends AsyncTask<String, Void, String> {
             String json = reader.readLine();
 
             // Instantiate a JSON object from the request response
-            JSONObject jsonObject = new JSONObject(json);
-            return json;
-
+            return new JSONObject(json).getJSONObject("query").getJSONArray("pages").getJSONObject(0).getString("extract").toString();
         } catch (Exception e) {
             this.exception = e;
             return null;
