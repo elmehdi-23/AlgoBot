@@ -24,27 +24,33 @@ import android.speech.tts.TextToSpeech;
 import java.util.*;
 
 public class Main extends AppCompatActivity {
-
+    //Static
+    private final String TAG = "Main" ;
+    private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=300&redirects=1&formatversion=2&origin=*&titles=";
+    // Views
     public TextToSpeech t1,t2;
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
     private ListView mListView;
     private FloatingActionButton mButtonSend;
     private EditText mEditTextMessage;
     private ChatMessageAdapter mAdapter;
+    //Evaliation Mode
+    private boolean evalmode = false ;
+    private Evaluation eval = new Evaluation();
+    private int evalQest = 0;
 
+    // Permission
+    private final int REQ_CODE_SPEECH_INPUT = 100;
     String[] permissions = new String[] {
             Manifest.permission.INTERNET,
             Manifest.permission.RECORD_AUDIO
     };
-    private final String TAG = "Main" ;
-    private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=300&redirects=1&formatversion=2&origin=*&titles=";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
         new CountDownTimer((int) ((Math.random()* 2000)+1000),1000){
             @Override
             public void onTick(long millisUntilFinished) {
@@ -58,8 +64,6 @@ public class Main extends AppCompatActivity {
                 mListView = (ListView) findViewById(R.id.listView);
                 mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
                 mEditTextMessage = (EditText) findViewById(R.id.et_message);
-
-                //mImageView = (ImageView) findViewById(R.id.iv_image);
                 mAdapter = new ChatMessageAdapter(getApplicationContext(), new ArrayList<ChatMessage>());
                 mListView.setAdapter(mAdapter);
 
@@ -69,29 +73,37 @@ public class Main extends AppCompatActivity {
                 t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                     @Override
                     public void onInit(int status) {
-                        if(status != TextToSpeech.ERROR) {
-                            t1.setLanguage(Locale.FRANCE);
-                        }
+                    if(status != TextToSpeech.ERROR) {
+                        t1.setLanguage(Locale.FRANCE);
+                    }
                     }
                 });
-
+                mimicOtherMessage("Pour avoir de l'aide, merci de saisir le mot aide\nPour passer une évaluation, merci de saisir le mot eval ou bien test");
 
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-
-                        promptSpeechInput();
+                    promptSpeechInput();
                     }
                 });
                 mButtonSend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String message = mEditTextMessage.getText().toString();
-                        //t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-                        //bot
-                        if(!message.isEmpty()) {
-                            String response = "";
+                    String message = mEditTextMessage.getText().toString();
+                    String response = "";
+                    if(evalmode ==false ) {
+                        if (message.toLowerCase().matches("aide")) {
+                            response = "Pour avoir de l'aide, merci de saisir le mot aide\n" +
+                                    "Pour passer une évaluation, merci de saisir le mot eval ou bien test\n"
+                                    +"Cette application est développer par Berrich";
+                        } else if (message.toLowerCase().matches("eval|test")) {
+                            response = "bonjour utilisatuer\n";
+                            evalmode = true;
+                            eval.start(1);
+                            response += eval.element.elementAt(0).getQest();
+                            evalQest = 1;
+                        } else if (!message.isEmpty()) {
                             try {
                                 response = new Data().execute(url + message.replace(" ", "%20")).get();
                                 response = response.compareTo("") == 0 ? message : response;
@@ -99,16 +111,41 @@ public class Main extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            sendMessage(message);
-                            mimicOtherMessage(response);
-                            mEditTextMessage.setText("");
-                            mListView.setSelection(mAdapter.getCount() - 1);
-
-                            //Toast.makeText(getApplicationContext(),"Res : "+response,Toast.LENGTH_LONG).show();
-                            t1.speak(response, TextToSpeech.QUEUE_FLUSH, null);
                         }
+                    }
+                    else{
+                        if(evalQest != 3) {
+                            switch (Integer.parseInt(message)) {
+                                case 1:
+                                    eval.score++;
+                                case 2:
+                                case 3:
+                                    evalQest++;
+                                    if(evalQest != 3)
+                                        response = eval.element.elementAt(evalQest-1).getQest();
+                                    break;
+                                default:
+                                    response = "choix entre 1 et 3 !!";
+                                    response += eval.element.elementAt(evalQest-1).getQest();
+                            }
+                        }
+                        else{
+                            if(Integer.parseInt(message) == 1) eval.score++;
+                            response = "Votre score est : "+ eval.score ;
+                            eval.score = 0;
+                            evalmode = false;
+                        }
+                    }
+                    sendMessage(message);
+                    mimicOtherMessage(response);
+                    mEditTextMessage.setText("");
+                    mListView.setSelection(mAdapter.getCount() - 1);
 
-                        //Toast.makeText(getApplicationContext(),"list : "+mListView.getCount(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),"Res : "+response,Toast.LENGTH_LONG).show();
+                    if(!evalmode)
+                        t1.speak(response, TextToSpeech.QUEUE_FLUSH, null);
+
+                    //Toast.makeText(getApplicationContext(),"list : "+mListView.getCount(),Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -146,7 +183,7 @@ public class Main extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.FRANCE);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
                 getString(R.string.speech_prompt));
         try

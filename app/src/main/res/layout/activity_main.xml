@@ -37,13 +37,13 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/btnSpeak"
+            android:id="@+id/btnCamera"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/ico_camera" />
         <ImageButton
-            android:id="@+id/btnCamera"
+            android:id="@+id/btnSpeak"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:background="@null"
