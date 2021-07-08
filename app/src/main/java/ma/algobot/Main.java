@@ -1,5 +1,6 @@
 package ma.algobot;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.speech.tts.TextToSpeech;
@@ -29,7 +29,6 @@ public class Main extends AppCompatActivity {
     private final String url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&exchars=300&redirects=1&formatversion=2&origin=*&titles=";
     // Views
     public TextToSpeech t1,t2;
-    private TextView txtSpeechInput;
     private ImageButton btnSpeak;
     private ListView mListView;
     private FloatingActionButton mButtonSend;
@@ -67,7 +66,6 @@ public class Main extends AppCompatActivity {
                 mAdapter = new ChatMessageAdapter(getApplicationContext(), new ArrayList<ChatMessage>());
                 mListView.setAdapter(mAdapter);
 
-                txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
                 btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
 
                 t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -138,11 +136,9 @@ public class Main extends AppCompatActivity {
                     mimicOtherMessage(response);
                     mEditTextMessage.setText("");
                     mListView.setSelection(mAdapter.getCount() - 1);
-
                     //Toast.makeText(getApplicationContext(),"Res : "+response,Toast.LENGTH_LONG).show();
                     if(!evalmode)
                         t1.speak(response, TextToSpeech.QUEUE_FLUSH, null);
-
                     //Toast.makeText(getApplicationContext(),"list : "+mListView.getCount(),Toast.LENGTH_LONG).show();
                     }
                 });
@@ -170,12 +166,12 @@ public class Main extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, grantResults[0]+getString(R.string.toast_permission_granted));
-                Toast.makeText(this,grantResults[0]+getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
+                Log.d(TAG, getString(R.string.toast_permission_granted));
+                Toast.makeText(this,getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
             }
             else if(grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                Log.d(TAG, grantResults[1]+getString(R.string.toast_permission_granted));
-                Toast.makeText(this,grantResults[1]+getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
+                Log.d(TAG, getString(R.string.toast_permission_granted));
+                Toast.makeText(this,getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
             }
             else{
                 Log.w(TAG, getString(R.string.toast_permission_denied));
@@ -188,15 +184,12 @@ public class Main extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
     //speech start
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.FRANCE);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speech_prompt));
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
         try
         {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
@@ -234,10 +227,21 @@ public class Main extends AppCompatActivity {
         }
         super.onPause();
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && null != data) {
+                //get text arry form voice intent
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                //set to text view
+                mEditTextMessage.setText(result.get(0));
+            }
+        }
+    }
     @Override
     public void onBackPressed() {
-        if(t1.isSpeaking())
+        if(t1 != null && t1.isSpeaking())
             t1.stop();
         else
             super.onBackPressed();
