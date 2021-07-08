@@ -27,7 +27,7 @@
             android:contentDescription="@string/todo"
             android:src="@drawable/crmef_1" />
     </RelativeLayout>
-
+    <!--
     <TextView
         android:id="@+id/start_word"
         android:layout_width="match_parent"
@@ -37,4 +37,5 @@
         android:text="@string/myname"
         android:textAlignment="center"
         android:textSize="24sp" />
+     -->
 </RelativeLayout>

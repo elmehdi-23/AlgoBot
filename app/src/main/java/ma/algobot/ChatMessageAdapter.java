@@ -6,12 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
-
-import ma.algobot.ChatMessage;
-import ma.algobot.R;
 
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
     private static final int MY_MESSAGE = 0, OTHER_MESSAGE = 1, MY_IMAGE = 2, OTHER_IMAGE = 3;
@@ -41,14 +37,12 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         int viewType = getItemViewType(position);
         if (viewType == MY_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_mine_message, parent, false);
-
             TextView textView = (TextView) convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
             //Toast.makeText(getContext(),"Res : "+textView.getText().toString(),Toast.LENGTH_LONG).show();
 
         } else if (viewType == OTHER_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_message, parent, false);
-
             TextView textView = (TextView) convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
             //String a = getItem(0).getContent();
@@ -63,7 +57,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         convertView.findViewById(R.id.chatMessageView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
             }
         });
 

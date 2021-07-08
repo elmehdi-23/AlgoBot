@@ -4,6 +4,9 @@
     <string name="version">1.0</string>
     <string name="version_word">version</string>
     <string name="myname">Berrich EL Mehdi</string>
+    <!--Permission -->
+    <string name="toast_permission_granted"> AUTORISATIONS ACCORDÉES</string>
+    <string name="toast_permission_denied"> AUTORISATIONS REFUSÉES</string>
     <!--Start Page-->
     <string name="start_crmef">2021</string>
     <!--Menu Page-->

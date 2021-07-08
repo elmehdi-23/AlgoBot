@@ -95,8 +95,7 @@ public class Main extends AppCompatActivity {
                     if(evalmode ==false ) {
                         if (message.toLowerCase().matches("aide")) {
                             response = "Pour avoir de l'aide, merci de saisir le mot aide\n" +
-                                    "Pour passer une évaluation, merci de saisir le mot eval ou bien test\n"
-                                    +"Cette application est développer par Berrich";
+                                    "Pour passer une évaluation, merci de saisir le mot eval ou bien test\n";
                         } else if (message.toLowerCase().matches("eval|test")) {
                             response = "bonjour utilisatuer\n";
                             evalmode = true;
@@ -121,8 +120,7 @@ public class Main extends AppCompatActivity {
                                 case 2:
                                 case 3:
                                     evalQest++;
-                                    if(evalQest != 3)
-                                        response = eval.element.elementAt(evalQest-1).getQest();
+                                    response = eval.element.elementAt(evalQest-1).getQest();
                                     break;
                                 default:
                                     response = "choix entre 1 et 3 !!";
@@ -172,8 +170,21 @@ public class Main extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // do something
+                Log.d(TAG, grantResults[0]+getString(R.string.toast_permission_granted));
+                Toast.makeText(this,grantResults[0]+getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
             }
+            else if(grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                Log.d(TAG, grantResults[1]+getString(R.string.toast_permission_granted));
+                Toast.makeText(this,grantResults[1]+getString(R.string.toast_permission_granted),Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Log.w(TAG, getString(R.string.toast_permission_denied));
+                Toast.makeText(this, getString(R.string.toast_permission_denied), Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+        else{
+
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -193,9 +204,7 @@ public class Main extends AppCompatActivity {
         }
         catch (ActivityNotFoundException a)
         {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.speech_not_supported),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
         }
     }
     public void sendMessage(String message) {
