@@ -13,14 +13,9 @@ Clone the [repo](https://github.com/elmehdi-23/AlgoBot) and import the code in A
 ```
 git clone https://github.com/elmehdi-23/AlgoBot.git
 ```
-
-## Text to Speech
-
-## Speech to Text
-
-## Wikipedia API
-
-## OCR Optical character recognitition
-
-## Evaluation Mode
-**Note:**
+## Functions
+### Text to Speech
+### Speech to Text
+### Wikipedia API
+### OCR Optical character recognitition
+### Evaluation Mode
