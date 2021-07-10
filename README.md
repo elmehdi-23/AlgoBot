@@ -1,9 +1,9 @@
 # AlgoBot - An Android ChatBot by Berrich El Mehdi
 
-[![Build Status](https://travis-ci.org/VidyasagarMSC/WatBot.svg?branch=master)](https://travis-ci.org/VidyasagarMSC/WatBot)
+[![Build Status](images/passing.svg)](https://github.com/elmehdi-23/AlgoBot)
 
-AlgoBot is ChatBot running on <a href="https://vmacwrites.wordpress.com/category/android/" target="_blank">Android</a> <a href="https://vmacwrites.wordpress.com/category/cloud/" target="_blank">Cloud</a>
-<p align="center"><img src="images/WatBot_5X.png" width="350" /></p>
+AlgoBot is ChatBot running on Android
+<p align="center"><img src="images/ic.png" width="350" /></p>
 
 <h2>Coding the app on Android Studio</h2>
 Android Studio is the Official IDE for Android. Android Studio provides the fastest tools for building apps on every type of Android device.
