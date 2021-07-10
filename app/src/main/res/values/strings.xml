@@ -13,4 +13,6 @@
     <string name="speech_prompt"><font size = "25">Essayer de dire……</font></string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="Ehint"><font size="15">Taper un Message…</font></string>
+    <string name="w_aide">Pour avoir de l\'aide, merci de saisir le mot aide\nPour passer une évaluation, merci de saisir le mot eval ou bien test\nPour la recherche sur wikipedia , merci de saisir le mot wiki aprés votre mot de recherche\nCette Application est développe Par : Berrich El Mehdi</string>
+
 </resources>

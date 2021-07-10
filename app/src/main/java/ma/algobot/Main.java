@@ -76,7 +76,7 @@ public class Main extends AppCompatActivity {
                     }
                     }
                 });
-                mimicOtherMessage("Pour avoir de l'aide, merci de saisir le mot aide\nPour passer une évaluation, merci de saisir le mot eval ou bien test");
+                mimicOtherMessage("Pour avoir de l'aide, merci de saisir le mot aide");
 
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -92,15 +92,15 @@ public class Main extends AppCompatActivity {
                     String response = "";
                     if(evalmode ==false ) {
                         if (message.toLowerCase().matches("aide")) {
-                            response = "Pour avoir de l'aide, merci de saisir le mot aide\n" +
-                                    "Pour passer une évaluation, merci de saisir le mot eval ou bien test\n";
+                            response = getString(R.string.w_aide);
                         } else if (message.toLowerCase().matches("eval|test")) {
                             response = "bonjour utilisatuer\n";
                             evalmode = true;
                             eval.start(1);
                             response += eval.element.elementAt(0).getQest();
                             evalQest = 1;
-                        } else if (!message.isEmpty()) {
+                        } else if (!message.isEmpty() || message.toLowerCase().startsWith("wiki")) {
+                            if(message.toLowerCase().startsWith("wiki")) message = message.replace("wiki ","");
                             try {
                                 response = new Data().execute(url + message.replace(" ", "%20")).get();
                                 response = response.compareTo("") == 0 ? message : response;
