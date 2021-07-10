@@ -127,7 +127,7 @@ public class Main extends AppCompatActivity {
                         }
                         else{
                             if(Integer.parseInt(message) == 1) eval.score++;
-                            response = "Votre score est : "+ eval.score ;
+                            response = "Votre score est : "+ eval.score + "/3" ;
                             eval.score = 0;
                             evalmode = false;
                         }
