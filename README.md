@@ -23,7 +23,7 @@ git clone https://github.com/elmehdi-23/AlgoBot.git
 <p align="center"><img src="images/Screenrecorder3.jpg" width="300" /></p>
 
 ### Wikipedia API
-<p align="center" style="display:inline-block;"><img src="images/Screenrecorder4.jpg" width="300" /><div style="border-left: 6px solid green; height: auto;"></div><img src="images/Screenrecorder5.jpg" width="300" /></p>
+<p align="center" style="display:inline-block;"><img src="images/Screenrecorder4.jpg" width="300" />      <img src="images/Screenrecorder5.jpg" width="300" /></p>
 
 ### OCR Optical character recognitition
 
